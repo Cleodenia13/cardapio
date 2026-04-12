@@ -1,32 +1,15 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__)
+app = Flask(__name__)  # 👈 TEM QUE VIR PRIMEIRO
 
-cardapio = [
-    {"nome": "Hambúrguer", "preco": 10},
-    {"nome": "X-Burger", "preco": 12},
-    {"nome": "Batata Frita", "preco": 8},
-    {"nome": "Refrigerante", "preco": 5}
-]
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cardapio.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-@app.route("/")
-def index():
-    return render_template("index.html", cardapio=cardapio)
-
-@app.route("/pedido", methods=["POST"])
-def pedido():
-    itens = request.form.getlist("pedido")
-
-    mensagem = "Olá, quero pedir:\n"
-    for item in itens:
-        mensagem += f"- {item}\n"
-
-    # COLOCA SEU NÚMERO AQUI (com DDD)
-    numero = "5585987235195"
-
-    link = f"https://wa.me/{numero}?text={mensagem}"
-
-    return redirect(link)
-
-if __name__ == "__main__":
-    app.run(debug=True)
+db = SQLAlchemy(app)
+class Produto(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(100))
+    preco = db.Column(db.Float)
+    imagem = db.Column(db.String(300))
+    
