@@ -4,6 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cardapio.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db = SQLAlchemy(app)
 
 class Produto(db.Model):
@@ -11,6 +13,11 @@ class Produto(db.Model):
     nome = db.Column(db.String(100))
     preco = db.Column(db.Float)
     imagem = db.Column(db.String(200))
+
+@app.route('/')
+def index():
+    produtos = Produto.query.all()
+    return render_template('index.html', produtos=produtos)
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
@@ -27,3 +34,6 @@ def admin():
 
     produtos = Produto.query.all()
     return render_template('admin.html', produtos=produtos)
+
+if __name__ == '__main__':
+    app.run(debug=True)
