@@ -94,3 +94,9 @@ def add_produto():
     db.session.commit()
 
     return redirect('/painel')
+    senha = request.form['senha']
+    from werkzeug.security import generate_password_hash, check_password_hash
+    user = Usuario.query.filter_by(email=email).first()
+    senha = generate_password_hash(request.form['senha'])
+if user and check_password_hash(user.senha, senha):
+    session['user_id'] = user.id

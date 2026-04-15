@@ -49,3 +49,5 @@ def loja(slug):
     produtos = Produto.query.filter_by(loja_id=loja.id).all()
 
     return render_template('loja.html', loja=loja, produtos=produtos)
+    <link rel="manifest" href="/static/manifest.json">
+    
