@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="/static/style.css">
 <h2>Painel Admin</h2>
 
 <form method="POST">
@@ -10,5 +11,9 @@
 <hr>
 
 {% for p in produtos %}
-    <p>{{ p.nome }} - R$ {{ p.preco }}</p>
+    <div class="produto">
+        <img src="{{ p.imagem }}" width="100%">
+        <h3>{{ p.nome }}</h3>
+        <p>R$ {{ p.preco }}</p>
+    </div>
 {% endfor %}
