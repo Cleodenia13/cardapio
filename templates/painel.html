@@ -1,0 +1,18 @@
+<h2>Painel do Cliente</h2>
+
+<form action="/add_produto" method="POST">
+    <input name="nome" placeholder="Produto">
+    <input name="preco" placeholder="Preço">
+    <input name="imagem" placeholder="Imagem URL">
+    <button>Adicionar</button>
+</form>
+
+<hr>
+
+{% for p in produtos %}
+<div>
+    <img src="{{ p.imagem }}" width="80">
+    <h3>{{ p.nome }}</h3>
+    <p>R$ {{ p.preco }}</p>
+</div>
+{% endfor %}

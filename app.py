@@ -52,3 +52,45 @@ def loja(slug):
     produtos = Produto.query.filter_by(loja_id=loja.id).all()
 
     return render_template('loja.html', loja=loja, produtos=produtos)
+from flask import session
+class Usuario(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(100))
+    senha = db.Column(db.String(100))
+    loja_id = db.Column(db.Integer, db.ForeignKey('loja.id'))
+    @app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        senha = request.form['senha']
+
+        user = Usuario.query.filter_by(email=email, senha=senha).first()
+
+        if user:
+            session['user_id'] = user.id
+            return redirect('/painel')
+
+    return render_template('login.html')
+@app.route('/painel')
+def painel():
+    if 'user_id' not in session:
+        return redirect('/login')
+
+    user = Usuario.query.get(session['user_id'])
+    produtos = Produto.query.filter_by(loja_id=user.loja_id).all()
+
+    return render_template('painel.html', produtos=produtos)
+@app.route('/add_produto', methods=['POST'])
+def add_produto():
+    user = Usuario.query.get(session['user_id'])
+
+    nome = request.form['nome']
+    preco = float(request.form['preco'])
+    imagem = request.form['imagem']
+
+    novo = Produto(nome=nome, preco=preco, imagem=imagem, loja_id=user.loja_id)
+
+    db.session.add(novo)
+    db.session.commit()
+
+    return redirect('/painel')
