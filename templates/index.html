@@ -1,3 +1,4 @@
+{% for item in produtos %}
 <div class="card">
     <img src="{{ item.imagem }}" width="80" style="border-radius:8px;">
 
@@ -5,3 +6,5 @@
         <h3>{{ item.nome }}</h3>
         <p class="preco">R$ {{ item.preco }}</p>
     </div>
+</div>
+{% endfor %}
