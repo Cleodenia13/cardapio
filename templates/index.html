@@ -1,19 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Cardápio</title>
-</head>
-<body>
-
-<h1>Cardápio</h1>
-
-{% for item in produtos %}
-    <div>
-        <img src="{{ item.imagem }}" width="100">
-        <h3>{{ item.nome }}</h3>
-        <p>R$ {{ item.preco }}</p>
-    </div>
-{% endfor %}
-
-</body>
-</html>
+{% if produtos %}
+    {% for item in produtos %}
+        <div>
+            <img src="{{ item.imagem }}" width="100">
+            <h3>{{ item.nome }}</h3>
+            <p>R$ {{ item.preco }}</p>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>Não há produtos cadastrados.</p>
+{% endif %}
