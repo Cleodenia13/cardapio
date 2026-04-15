@@ -1,17 +1,62 @@
-<h1>{{ loja.nome }}</h1>
+<h2>{{ loja.nome }}</h2>
 
-<img src="{{ loja.logo }}" width="120">
-
-<a href="https://wa.me/{{ loja.whatsapp }}">Falar no WhatsApp</a>
-
-<p>PIX: {{ loja.pix }}</p>
+<p>📞 {{ loja.whatsapp }}</p>
+<p>💳 PIX: {{ loja.pix }}</p>
 
 <hr>
 
+<div id="carrinho"></div>
+
 {% for item in produtos %}
 <div>
-    <img src="{{ item.imagem }}" width="100">
+    <img src="{{ item.imagem }}" width="80">
     <h3>{{ item.nome }}</h3>
     <p>R$ {{ item.preco }}</p>
+
+    <button onclick="addCarrinho('{{ item.nome }}', {{ item.preco }})">
+        Adicionar
+    </button>
 </div>
 {% endfor %}
+
+<button onclick="finalizarPedido()">Finalizar Pedido</button>
+
+<script>
+let carrinho = [];
+
+function addCarrinho(nome, preco) {
+    carrinho.push({nome, preco});
+    mostrarCarrinho();
+}
+
+function mostrarCarrinho() {
+    let div = document.getElementById("carrinho");
+
+    let total = 0;
+    let html = "<h3>Carrinho:</h3>";
+
+    carrinho.forEach(item => {
+        total += item.preco;
+        html += `<p>${item.nome} - R$ ${item.preco}</p>`;
+    });
+
+    html += `<strong>Total: R$ ${total}</strong>`;
+    div.innerHTML = html;
+}
+
+function finalizarPedido() {
+    let numero = "{{ loja.whatsapp }}";
+
+    let msg = "Pedido:%0A";
+
+    carrinho.forEach(item => {
+        msg += `- ${item.nome} R$ ${item.preco}%0A`;
+    });
+
+    let total = carrinho.reduce((s, i) => s + i.preco, 0);
+
+    msg += `%0ATotal: R$ ${total}`;
+
+    window.open(`https://wa.me/${numero}?text=${msg}`, "_blank");
+}
+</script>
