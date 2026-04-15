@@ -1,4 +1,11 @@
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
 <h2>Painel Admin</h2>
 
 <form method="POST">
@@ -17,3 +24,6 @@
         <p>R$ {{ p.preco }}</p>
     </div>
 {% endfor %}
+
+</body>
+</html>
