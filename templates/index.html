@@ -1,10 +1,19 @@
-{% for item in produtos %}
-<div class="card">
-    <img src="{{ item.imagem }}" width="80" style="border-radius:8px;">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cardápio</title>
+</head>
+<body>
 
-    <div class="info">
+<h1>Cardápio</h1>
+
+{% for item in produtos %}
+    <div>
+        <img src="{{ item.imagem }}" width="100">
         <h3>{{ item.nome }}</h3>
-        <p class="preco">R$ {{ item.preco }}</p>
+        <p>R$ {{ item.preco }}</p>
     </div>
-</div>
 {% endfor %}
+
+</body>
+</html>

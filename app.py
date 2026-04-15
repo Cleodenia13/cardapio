@@ -5,6 +5,11 @@ app = Flask(__name__)  # 👈 TEM que vir antes de tudo
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cardapio.db'
 db = SQLAlchemy(app)
+class Produto(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(100))
+    preco = db.Column(db.Float)
+    imagem = db.Column(db.String(300))
 @app.route('/')
 def index():
     produtos = Produto.query.all()
@@ -24,3 +29,7 @@ def admin():
 
     produtos = Produto.query.all()
     return render_template('admin.html', produtos=produtos)
+if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
+    app.run(debug=True)
