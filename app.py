@@ -33,3 +33,22 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     app.run(debug=True)
+    class Loja(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(100))
+    slug = db.Column(db.String(100), unique=True)
+    logo = db.Column(db.String(300))
+    whatsapp = db.Column(db.String(20))
+    pix = db.Column(db.String(100))
+    class Produto(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(100))
+    preco = db.Column(db.Float)
+    imagem = db.Column(db.String(300))
+    loja_id = db.Column(db.Integer, db.ForeignKey('loja.id'))
+    @app.route('/<slug>')
+def loja(slug):
+    loja = Loja.query.filter_by(slug=slug).first()
+    produtos = Produto.query.filter_by(loja_id=loja.id).all()
+
+    return render_template('loja.html', loja=loja, produtos=produtos)

@@ -1,0 +1,17 @@
+<h1>{{ loja.nome }}</h1>
+
+<img src="{{ loja.logo }}" width="120">
+
+<a href="https://wa.me/{{ loja.whatsapp }}">Falar no WhatsApp</a>
+
+<p>PIX: {{ loja.pix }}</p>
+
+<hr>
+
+{% for item in produtos %}
+<div>
+    <img src="{{ item.imagem }}" width="100">
+    <h3>{{ item.nome }}</h3>
+    <p>R$ {{ item.preco }}</p>
+</div>
+{% endfor %}
