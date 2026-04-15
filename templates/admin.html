@@ -19,7 +19,7 @@
 
 {% for p in produtos %}
     <div class="produto">
-        <img src="{{ p.imagem }}" width="100%">
+    <img src="{{ p.imagem }}" width="80" style="border-radius:8px;">
         <h3>{{ p.nome }}</h3>
         <p>R$ {{ p.preco }}</p>
     </div>
